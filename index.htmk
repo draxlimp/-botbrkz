@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRKZ Bot - Comandos</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap');
+        
+        :root {
+            --glow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            animation: scanline 4s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { top: 0; opacity: 0; }
+            5% { opacity: 1; }
+            95% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        
+        h1 {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: textGlow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes textGlow {
+            from { text-shadow: var(--glow); }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #fff; }
+        }
+        
+        .bot-info {
+            background-color: rgba(20, 20, 20, 0.8);
+            border: 1px solid #333;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bot-info::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(255, 255, 255, 0.07) 0%,
+                rgba(255, 255, 255, 0) 80%
+            );
+            pointer-events: none;
+        }
+        
+        .bot-info p {
+            margin: 0.5rem 0;
+            line-height: 1.6;
+        }
+        
+        .bot-info strong {
+            color: #fff;
+            font-weight: 600;
+        }
+        
+        .command-section {
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title::before {
+            content: ">";
+            margin-right: 10px;
+            color: #fff;
+            font-weight: bold;
+        }
+        
+        .command-card {
+            background-color: rgba(30, 30, 30, 0.7);
+            border-left: 3px solid #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .command-card:hover {
+            background-color: rgba(50, 50, 50, 0.7);
+            transform: translateX(5px);
+        }
+        
+        .command-name {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 0.3rem;
+            font-size: 1.1rem;
+        }
+        
+        .command-desc {
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+            color: #777;
+            font-size: 0.8rem;
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        /* Botão flutuante retangular */
+        .floating-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #fff;
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            animation: pulse 2s infinite;
+            border: 2px solid #000;
+        }
+        
+        .floating-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.8);
+            background-color: #000;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+        
+        .floating-btn::before {
+            content: "+";
+            margin-right: 8px;
+            font-size: 1.2em;
+        }
+        
+        @keyframes pulse {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles-js"></div>
+    
+    <a href="https://discord.com/oauth2/authorize?client_id=1377740743933694073&permissions=8&integration_type=0&scope=bot" class="floating-btn" title="Adicionar BRKZ ao seu servidor">
+        Adicione o BRKZ
+    </a>
+    
+    <div class="container">
+        <h1>BRKZ BOT</h1>
+        
+        <div class="bot-info">
+            <p><strong>O que é:</strong> Bot de moderação para Discord com ferramentas avançadas para gerenciamento de comunidades.</p>
+            <p><strong>Criado em:</strong> 30 de Maio de 2025</p>
+            <p><strong>Criado por:</strong> @drax (ID: 9671847)</p>
+            <p><strong>Scope:</strong> Bot (8) - Permissões administrativas para moderação completa</p>
+        </div>
+        
+        <div class="command-section">
+            <div class="section-title">Comandos de Moderação</div>
+            
+            <div class="command-card">
+                <div class="command-name">!ban @usuário</div>
+                <div class="command-desc">Bane permanentemente um usuário do servidor</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">!unban ID/nome</div>
+                <div class="command-desc">Remove o banimento de um usuário</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">!cl</div>
+                <div class="command-desc">Limpa suas mensagens no canal atual</div>
+            </div>
+        </div>
+        
+        <div class="command-section">
+            <div class="section-title">Comandos de Embed</div>
+            
+            <div class="command-card">
+                <div class="command-name">!embed</div>
+                <div class="command-desc">Cria mensagens embed personalizadas (título, descrição, cor, imagem)</div>
+            </div>
+        </div>
+        
+        <div class="command-section">
+            <div class="section-title">Comandos de Informação</div>
+            
+            <div class="command-card">
+                <div class="command-name">!ping</div>
+                <div class="command-desc">Mostra o status e latência do bot</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="command-name">!ajuda</div>
+                <div class="command-desc">Exibe esta lista de comandos</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            BRKZ Bot © 2025 | Todos os comandos exigem permissões específicas
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    }
+                },
+                "opacity": {
+                    "value": 0.3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 2,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.2,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false,
+                    "attract": {
+                        "enable": true,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 0.5
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+    </script>
+</body>
+</html>
